@@ -3,7 +3,8 @@
     "description": "Laravel wrapper around Bitnob virtual cards Rest API.",
     "keywords": [
         "towoju5",
-        "bitnob"
+        "bitnob",
+        "virtual cards"
     ],
     "homepage": "https://github.com/towoju5/bitnob",
     "license": "MIT",
@@ -16,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.2|^8.0",
         "illuminate/support": "^8.0"
     },
     "require-dev": {
