@@ -1,0 +1,54 @@
+{
+    "name": "towoju5/bitnob",
+    "description": "Laravel wrapper around Bitnob virtual cards Rest API.",
+    "keywords": [
+        "towoju5",
+        "bitnob"
+    ],
+    "homepage": "https://github.com/towoju5/bitnob",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "EMMANUEL TOWOJU",
+            "email": "towojuads@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Towoju5\\Bitnob\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Towoju5\\Bitnob\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Towoju5\\Bitnob\\BitnobServiceProvider"
+            ],
+            "aliases": {
+                "Bitnob": "Towoju5\\Bitnob\\BitnobFacade"
+            }
+        }
+    }
+}
