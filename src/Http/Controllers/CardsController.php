@@ -13,71 +13,70 @@ class CardsController extends Controller
         // get all user cards.
     }
 
-    public function regUser(Request $request): void
+    public function regUser($data): void
     {
         $data = [
-            'customerEmail'     => 'mosese@gmail.com',
-            'idNumber'          => '00000000000',
-            'idType'            => 'NIN',
-            'firstName'         => $request->user->firstName,
-            'lastName'          => $request->user->lastName,
-            'phoneNumber'       => $request->user->phoneNumber,
-            'city'              => $request->user->city,
-            'state'             => $request->user->state,
-            'country'           => $request->user->country,
-            'zipCode'           => $request->user->zipCode,
-            'line1'             => 'Ikeja',
-            'houseNumber'       => 'accra',
-            'idImage'           => 'null',
+            'customerEmail'     => $data['customerEmail'],
+            'idNumber'          => $data['idNumber'],
+            'idType'            => $data['idType'],
+            'firstName'         => $data['firstName'],
+            'lastName'          => $data['lastName'],
+            'phoneNumber'       => $data['phoneNumber'],
+            'city'              => $data['city'],
+            'state'             => $data['state'],
+            'country'           => $data['country'],
+            'zipCode'           => $data['zipCode'],
+            'line1'             => $data['line1'],
+            'houseNumber'       => $data['houseNumber'],
+            'idImage'           => $data['idImage'],
         ];
     }
 
-    public function create(Request $request)
+    public function create($data)
     {
         $data = [
-            'customerEmail' => $request->user->email,
-            'cardBrand'     => 'visa', // cardBrand should be "visa" or "mastercard"
-            'cardType'      => 'virtual',
-            'reference'     => _getTransactionId(),
-            'amount'        => $request->amount,
+            'customerEmail' => $data['customerEmail'],
+            'cardBrand'     => $data['cardBrand'],
+            'cardType'      => $data['cardType'],
+            'reference'     => $data['reference'],
+            'amount'        => $data['amount'],
         ];
         $action = Bitnob::send_request('create', 'POST', $data);
         return $action;
     }
 
-    public function topup(Request $request)
+    public function topup($data)
     {
         $data = [
-            'cardId'    => $request->cardId, //'4f644a2c-3c4f-48c7-a3fa-e896b544d546',
-            'reference' => _getTransactionId(),
-            'amount'    => $request->amount,
+            'cardId'    => $data['cardId'],
+            'reference' => $data['reference'],
+            'amount'    => $data['amount'],
         ];
         $action = Bitnob::send_request('topup', 'POST', $data);
         return $action;
     }
 
-    public function action(Request $request)
+    public function action($action, $cardId)
     {
         $data = [
-            'cardId'    => $request->cardId
+            'cardId'    => $cardId,
         ];
-        $action = Bitnob::send_request($request->action, 'POST', $data);
+        $action = Bitnob::send_request($action, 'POST', $data);
         return $action;
     }
 
-    public function getCard(Request $request)
+    public function getCard($cardId)
     {
         $data = [
-            'card_id'    => $request->cardId,
+            'card_id'    => $cardId,
         ];
         $action = Bitnob::send_request('card', 'GET', $data);
         return $action;
     }
 
-    public function getTransaction(Request $request)
+    public function getTransaction($cardId)
     {
-        $card_id = $request->cardId;
-        $action = Bitnob::send_request("cards/$card_id/transactions", 'GET', []);
+        $action = Bitnob::send_request("cards/$cardId/transactions", 'GET', []);
         return $action;
     }
 }

@@ -14,11 +14,70 @@ You can install the package via composer:
 composer require towoju5/bitnob
 ```
 
-## Usage
+## Enroll user for card creation
 
 ```php
-// Usage description here
+// enroll user for card creation
+$data = [
+    'customerEmail'     => 'johnsmith@gmail.com',
+    'idNumber'          => 'A00100010',
+    'idType'            => 'PASSPORT',
+    'firstName'         => 'Smith',
+    'lastName'          => 'John',
+    'phoneNumber'       => '08012345678',
+    'city'              => 'ILORIN',
+    'state'             => 'KWARA',
+    'country'           => 'NIGERIA',
+    'zipCode'           => '90011',
+    'line1'             => 'ABC street, klotovan road',
+    'houseNumber'       => 15,
+    'idImage'           => 'https://example.com/image.png',
+];
+app('bitnob')->regUser($data);
 ```
+## Create card. 
+NOTE: user must be firstly enrolled for this service
+```
+$data = [
+    'customerEmail' => 'johndoe@gmail.com',
+    'cardBrand'     => 'visa', // cardBrand should be "visa" or "mastercard"
+    'cardType'      => 'virtual',
+    'reference'     => '4f644a2c-3c4f-48c7-a3fa-e896b544d546',
+    'amount'        => 5000,
+];
+app('bitnob')->create($data);
+```
+
+## Card Topup. 
+NOTE: user must be firstly enrolled for this service
+```
+ $data = [
+    'cardId'    => $data['cardId'],
+    'reference' => $data['reference'],
+    'amount'    => $data['amount'],
+];
+app('bitnob')->topup($data);
+```
+
+## Perform action on card 
+```
+    $action = 'freeze'; // unfreeze
+    $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
+    app('bitnob')->action($action, $cardId);
+```
+
+## Get single card 
+```
+    $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
+    app('bitnob')->getCard($cardId);
+```
+
+## Get card getTransaction
+```
+    $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
+    app('bitnob')->getTransaction($cardId);
+```
+
 
 ### Testing
 

@@ -17,7 +17,7 @@ class Bitnob
             $headers["accept"]          = "application/json";
 
             if (NULL != $token) :
-                $headers["Authorization"] = "Bearer ${token}";
+                $headers["Authorization"] = "Bearer ".$token;
             endif;
 
             $url = getenv("BITNOB_BASE_URL").$uri;
@@ -27,14 +27,17 @@ class Bitnob
             $result = $res->getBody();
             $req = json_decode($result);
             if (isset($req->status) && $req->status == true) :
-                $result = get_success_response($req);
+                $result = response()->json($req);
             else :
-                $result = get_error_response($req, 400);
+                $result = response()->json($req, 400);
             endif;
 
             return $result;
         } catch (\Throwable $th) {
-            return get_error_response($th->getMessage(), $th->getCode() ?? 500);
+            return response()->json([
+                'error'  => $th->getMessage(), 
+                'errorCode' => $th->getCode() ?? 500 
+            ]);
         }
     }
 }
