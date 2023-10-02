@@ -51,12 +51,12 @@ app('bitnob')->create($data);
 ## Card Topup. 
 NOTE: user must be firstly enrolled for this service
 ```
- $data = [
+ $arr = [
     'cardId'    => $data['cardId'],
     'reference' => $data['reference'],
     'amount'    => $data['amount'],
 ];
-app('bitnob')->topup($data);
+app('bitnob')->topup($arr);
 ```
 
 ## Perform action on card 
