@@ -15,13 +15,13 @@ use Towoju5\Bitnob\Http\Controllers\CardsController;
 |
 */
 
-Route::group(['prefix' => 'api'], function(){
-    Route::group(['middleware' => 'auth:sanctum'], function(){
-    // misc
-        Route::post('create',           [CardsController::class, 'create']);
-        Route::post('topup',            [CardsController::class, 'topup']);
-        Route::get('card',              [CardsController::class, 'getCard']);
-        Route::post('card/action',      [CardsController::class, 'action']);
-        Route::get('history/{card_id}', [CardsController::class, 'getTransaction']);
-    });
-});
+// Route::group(['prefix' => 'api'], function(){
+//     Route::group(['middleware' => 'auth:sanctum'], function(){
+//     // misc
+//         Route::post('create',           [CardsController::class, 'create']);
+//         Route::post('topup',            [CardsController::class, 'topup']);
+//         Route::get('card',              [CardsController::class, 'getCard']);
+//         Route::post('card/action',      [CardsController::class, 'action']);
+//         Route::get('history/{card_id}', [CardsController::class, 'getTransaction']);
+//     });
+// });

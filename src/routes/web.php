@@ -16,5 +16,5 @@ use Towoju5\Reloadly\Reloadly;
 |
 */
 
-Route::get('operators/sync', [OperatorsController::class, 'sync']);
-Route::get('airtime/buy', [AirtimeController::class, 'buy']);
+// Route::get('operators/sync', [OperatorsController::class, 'sync']);
+// Route::get('airtime/buy', [AirtimeController::class, 'buy']);
