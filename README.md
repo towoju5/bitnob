@@ -29,13 +29,13 @@ Setup your base url and api key via the env file
 ## Virtual cards Management
 ```
     $bitnob = new Bitnob();
-    $customer = $bitnob->customer();
-    regUser($data)
-    create($data)
-    topup($data)
-    action($action, $cardId)
-    getCard($cardId)
-    getTransaction($cardId)
+    $cards      = $bitnob->cards();
+    $regUser    = $cards->regUser(array $data)
+    $create     = $cards->create(array $data)
+    $topup      = $cards->topup(array $data)
+    $action     = $cards->action(string $action, string $cardId)
+    $getCard    = $cards->getCard(string $cardId)
+    $getTransaction = $cards->getTransaction(string $cardId)
 ```
 
 
@@ -84,17 +84,13 @@ Setup your base url and api key via the env file
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
+##
+##
+##
+##
+##
+##
+##
 
 
 
