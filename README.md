@@ -14,6 +14,12 @@ You can install the package via composer:
 composer require towoju5/bitnob
 ```
 
+Setup your base url and api key via the env file
+```env
+    BITNOB_API_KEY=pk.f75b136.8a9babaec7ce729be883a7111
+    BITNOB_BASE_URL='https://sandboxapi.bitnob.co/api/v1'
+```
+
 ## Enroll user for card creation
 
 ```php
@@ -73,6 +79,14 @@ app('bitnob')->topup($arr);
 ```
 
 ## Get card getTransaction
+```
+    $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
+    app('bitnob')->getTransaction($cardId);
+```
+
+## Manage Bitnob Customers
+
+### Get card getTransaction
 ```
     $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
     app('bitnob')->getTransaction($cardId);

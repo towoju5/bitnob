@@ -4,6 +4,10 @@ namespace Towoju5\Bitnob;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Towoju5\Bitnob\Http\Controllers\BeneficiaryController;
+use Towoju5\Bitnob\Http\Controllers\CustomerController;
+use Towoju5\Bitnob\Http\Controllers\HostedCheckoutController;
+use Towoju5\Bitnob\Http\Controllers\TransferController;
 
 class Bitnob
 {
@@ -20,7 +24,7 @@ class Bitnob
                 $headers["Authorization"] = "Bearer ".$token;
             endif;
 
-            $url = getenv("BITNOB_BASE_URL").$uri;
+            $url = formatUrl(getenv("BITNOB_BASE_URL").$uri);
             $body = json_encode($data);
             $request = new Request($method, $url, $headers, $body);
             $res = $client->sendAsync($request)->wait();
@@ -39,5 +43,41 @@ class Bitnob
                 'errorCode' => $th->getCode() ?? 500 
             ]);
         }
+    }
+
+    public function transfer()
+    {
+        $transfer = new TransferController();
+        return $transfer;
+    }
+
+    public function customer()
+    {
+        $customer = new CustomerController();
+        return $customer;
+    }
+
+    public function beneficiary()
+    {
+        $beneficiary = new BeneficiaryController();
+        return $beneficiary;
+    }
+
+    public function checkout()
+    {
+        $checkout = new HostedCheckoutController();
+        return $checkout;
+    }
+
+    function formatUrl($url) {
+        // Ensure the URL starts with a valid protocol or prepend 'http://'
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+    
+        // Correct multiple slashes in the URL except in protocol part
+        $url = preg_replace('#(?<!:)//+#', '/', $url);
+    
+        return $url;
     }
 }
