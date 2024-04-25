@@ -5,6 +5,7 @@ namespace Towoju5\Bitnob;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Towoju5\Bitnob\Http\Controllers\BeneficiaryController;
+use Towoju5\Bitnob\Http\Controllers\CardsController;
 use Towoju5\Bitnob\Http\Controllers\CustomerController;
 use Towoju5\Bitnob\Http\Controllers\HostedCheckoutController;
 use Towoju5\Bitnob\Http\Controllers\TransferController;
@@ -43,6 +44,11 @@ class Bitnob
                 'errorCode' => $th->getCode() ?? 500 
             ]);
         }
+    }
+
+    public function cards(){
+        $cards = new CardsController();
+        return $cards;
     }
 
     public function transfer()

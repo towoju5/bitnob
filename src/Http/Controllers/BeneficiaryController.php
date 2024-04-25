@@ -33,7 +33,7 @@ class BeneficiaryController extends Controller
      *
      * @return array
      */
-    public function ListBeneficiaries()
+    public function listBeneficiaries()
     {
         $endpoint = "/beneficiaries";
         return $this->bitnob->send_request($endpoint, "DELETE");

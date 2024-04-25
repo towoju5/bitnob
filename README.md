@@ -20,6 +20,84 @@ Setup your base url and api key via the env file
     BITNOB_BASE_URL='https://sandboxapi.bitnob.co/api/v1'
 ```
 
+```bash
+    use Towoju5\Bitnob\Bitnob;
+    $bitnob = new Bitnob;
+```
+
+
+## Virtual cards Management
+```
+    $bitnob = new Bitnob();
+    $customer = $bitnob->customer();
+    regUser($data)
+    create($data)
+    topup($data)
+    action($action, $cardId)
+    getCard($cardId)
+    getTransaction($cardId)
+```
+
+
+
+## Manage Bitnob Customers
+```bash
+    $bitnob = new Bitnob();
+    $customer = $bitnob->customer();
+    $createCustomer = $customer->createCustomer(array $data);
+    $updateCustomer = $customer->updateCustomer(string $id, array $data);
+    $listCustomer   = $customer->listCustomer(string $id);
+    $getCustomer    = $customer->getCustomer(string $id);
+```
+
+
+
+## Transfer/Payout
+```bash
+    $bitnob = new Bitnob();
+    $transfer   = $bitnob->transfer();
+    $initPayout = $transfer->initPayout(array $arrays)
+    $completePayout      = $transfer->completePayout(string $payoutInitId)
+    $countryRequirements = $transfer->countryRequirements(string $country_code)
+    $supportedCountries  = $transfer->supportedCountries()
+```
+
+
+## Beneficiary
+```bash
+    $bitnob = new Bitnob();
+    $beneficiary        = $bitnob->beneficiary();
+    $createBeneficiary  = $beneficiary->createBeneficiary(array $data)
+    $listBeneficiaries  = $beneficiary->listBeneficiaries()
+    $getBeneficiary     = $beneficiary->getBeneficiary($beneficiary_id)
+```
+
+## Hosted Checkout - BTC Payment
+### Note:  Amount in Bitcoin and not satoshi
+```bash
+    $bitnob = new Bitnob();
+    $checkout = $bitnob->checkout();
+    $createHostedCheckout   = $checkout->createHostedCheckout(array $data)
+    $getCheckoutStatus      = $checkout->getCheckoutStatus($checkoutId)
+    $getCheckouts           = $checkout->getCheckouts($param = null)
+    $getCheckout            = $checkout->getCheckout($checkoutId)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Enroll user for card creation
 
 ```php
@@ -79,14 +157,6 @@ app('bitnob')->topup($arr);
 ```
 
 ## Get card getTransaction
-```
-    $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
-    app('bitnob')->getTransaction($cardId);
-```
-
-## Manage Bitnob Customers
-
-### Get card getTransaction
 ```
     $cardId = '4f644a2c-3c4f-48c7-a3fa-e896b544d546';
     app('bitnob')->getTransaction($cardId);
