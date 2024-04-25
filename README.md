@@ -188,12 +188,12 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ## Todo List
 
-
-### ✅ Virtual Card
-### ✅ Customers
-### ✅ Payouts/Mobile Transfers
-### ✅ Hosted Checkout
-### ❌ Bitcoin Onchain
-### ❌ Wallet
-### ❌ Transactions
-### ❌ StableCoins
+#### ✅ Virtual Card
+#### ✅ Customers
+#### ✅ Payouts/Mobile Transfers
+#### ✅ Hosted Checkout
+#### ✅ Beneficiary
+#### ❌ Bitcoin Onchain
+#### ❌ Wallet
+#### ❌ Transactions
+#### ❌ StableCoins
