@@ -25,7 +25,7 @@ class Bitnob
                 $headers["Authorization"] = "Bearer ".$token;
             endif;
 
-            $url = formatUrl(getenv("BITNOB_BASE_URL").$uri);
+            $url = self::formatUrl(getenv("BITNOB_BASE_URL").$uri);
             $body = json_encode($data);
             $request = new Request($method, $url, $headers, $body);
             $res = $client->sendAsync($request)->wait();
@@ -75,7 +75,7 @@ class Bitnob
         return $checkout;
     }
 
-    function formatUrl($url) {
+    private function formatUrl($url) {
         // Ensure the URL starts with a valid protocol or prepend 'http://'
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
