@@ -13,7 +13,7 @@ use Towoju5\Bitnob\Http\Controllers\TransferController;
 class Bitnob
 {
     // Build your next great package.
-    public static function send_request(string $uri, string $method, array $data = []) : array
+    public function send_request(string $uri, string $method, array $data = []) : array
     {
         try {
             $token = getenv("BITNOB_API_KEY");
@@ -25,17 +25,14 @@ class Bitnob
                 $headers["Authorization"] = "Bearer ".$token;
             endif;
 
-            $url = self::formatUrl(getenv("BITNOB_BASE_URL").$uri);
+            $url = $this->formatUrl(getenv("BITNOB_BASE_URL").$uri);
             $body = json_encode($data);
             $request = new Request($method, $url, $headers, $body);
             $res = $client->sendAsync($request)->wait();
             $result = $res->getBody();
-            $req = json_decode($result);
-            if (isset($req->status) && $req->status == true) :
-                $result = response()->json($req);
-            else :
-                $result = response()->json($req, 400);
-            endif;
+            if(!is_array($result)) {
+                $result = json_decode($result, true);
+            }
 
             return $result;
         } catch (\Throwable $th) {

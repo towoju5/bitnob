@@ -10,10 +10,12 @@ class CardsController extends Controller
 {
     public function list()
     {
-        // get all user cards.
+        $endpoint = "virtualcards/cards";
+        $action = Bitnob::send_request($endpoint, 'GET', []);
+        return $action;
     }
 
-    public function regUser($data): void
+    public function regUser($data)
     {
         $data = [
             'customerEmail'     => $data['customerEmail'],
@@ -30,6 +32,8 @@ class CardsController extends Controller
             'houseNumber'       => $data['houseNumber'],
             'idImage'           => $data['idImage'],
         ];
+        $action = Bitnob::send_request('virtualcards/registercarduser', 'POST', $data);
+        return $action;
     }
 
     public function create($data)
@@ -41,7 +45,7 @@ class CardsController extends Controller
             'reference'     => $data['reference'],
             'amount'        => $data['amount'],
         ];
-        $action = Bitnob::send_request('create', 'POST', $data);
+        $action = Bitnob::send_request('virtualcards/create', 'POST', $data);
         return $action;
     }
 
@@ -52,7 +56,7 @@ class CardsController extends Controller
             'reference' => $data['reference'],
             'amount'    => $data['amount'],
         ];
-        $action = Bitnob::send_request('topup', 'POST', $data);
+        $action = Bitnob::send_request('virtualcards/topup', 'POST', $data);
         return $action;
     }
 
@@ -61,7 +65,7 @@ class CardsController extends Controller
         $data = [
             'cardId'    => $cardId,
         ];
-        $action = Bitnob::send_request($action, 'POST', $data);
+        $action = Bitnob::send_request("virtualcards/$action", 'POST', $data);
         return $action;
     }
 
@@ -76,7 +80,8 @@ class CardsController extends Controller
 
     public function getTransaction($cardId)
     {
-        $action = Bitnob::send_request("cards/$cardId/transactions", 'GET', []);
+        $action = Bitnob::send_request("virtualcards/cards/$cardId/transactions", 'GET', []);
         return $action;
     }
+
 }
