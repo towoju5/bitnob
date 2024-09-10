@@ -11,7 +11,8 @@ class CardsController extends Controller
     public function list()
     {
         $endpoint = "virtualcards/cards";
-        $action = Bitnob::send_request($endpoint, 'GET', []);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request($endpoint, 'GET', []);
         return $action;
     }
 
@@ -32,7 +33,8 @@ class CardsController extends Controller
             'houseNumber'       => $data['houseNumber'],
             'idImage'           => $data['idImage'],
         ];
-        $action = Bitnob::send_request('virtualcards/registercarduser', 'POST', $data);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request('virtualcards/registercarduser', 'POST', $data);
         return $action;
     }
 
@@ -45,7 +47,8 @@ class CardsController extends Controller
             'reference'     => $data['reference'],
             'amount'        => $data['amount'],
         ];
-        $action = Bitnob::send_request('virtualcards/create', 'POST', $data);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request('virtualcards/create', 'POST', $data);
         return $action;
     }
 
@@ -56,7 +59,8 @@ class CardsController extends Controller
             'reference' => $data['reference'],
             'amount'    => $data['amount'],
         ];
-        $action = Bitnob::send_request('virtualcards/topup', 'POST', $data);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request('virtualcards/topup', 'POST', $data);
         return $action;
     }
 
@@ -65,7 +69,8 @@ class CardsController extends Controller
         $data = [
             'cardId'    => $cardId,
         ];
-        $action = Bitnob::send_request("virtualcards/$action", 'POST', $data);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request("virtualcards/$action", 'POST', $data);
         return $action;
     }
 
@@ -74,13 +79,15 @@ class CardsController extends Controller
         $data = [
             'card_id'    => $cardId,
         ];
-        $action = Bitnob::send_request('card', 'GET', $data);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request('card', 'GET', $data);
         return $action;
     }
 
     public function getTransaction($cardId)
     {
-        $action = Bitnob::send_request("virtualcards/cards/$cardId/transactions", 'GET', []);
+        $bitnob = new Bitnob();
+        $action = $bitnob->send_request("virtualcards/cards/$cardId/transactions", 'GET', []);
         return $action;
     }
 
