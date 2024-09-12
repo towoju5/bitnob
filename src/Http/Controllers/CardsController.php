@@ -3,6 +3,7 @@
 namespace Towoju5\Bitnob\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Towoju5\Bitnob\Bitnob;
 use Towoju5\Bitnob\Models\Cards;
 
@@ -11,8 +12,8 @@ class CardsController extends Controller
     public function list()
     {
         $endpoint = "virtualcards/cards";
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request($endpoint, 'GET', []);
+        
+        $action = $this->send_request($endpoint, 'GET', []);
         return $action;
     }
 
@@ -33,8 +34,8 @@ class CardsController extends Controller
             'houseNumber'       => $data['houseNumber'],
             'idImage'           => $data['idImage'],
         ];
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request('virtualcards/registercarduser', 'POST', $data);
+        
+        $action = $this->send_request('virtualcards/registercarduser', 'POST', $data);
         return $action;
     }
 
@@ -47,8 +48,8 @@ class CardsController extends Controller
             'reference'     => $data['reference'],
             'amount'        => $data['amount'],
         ];
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request('virtualcards/create', 'POST', $data);
+        
+        $action = $this->send_request('virtualcards/create', 'POST', $data);
         return $action;
     }
 
@@ -59,8 +60,8 @@ class CardsController extends Controller
             'reference' => $data['reference'],
             'amount'    => $data['amount'],
         ];
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request('virtualcards/topup', 'POST', $data);
+        
+        $action = $this->send_request('virtualcards/topup', 'POST', $data);
         return $action;
     }
 
@@ -69,8 +70,8 @@ class CardsController extends Controller
         $data = [
             'cardId'    => $cardId,
         ];
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request("virtualcards/$action", 'POST', $data);
+        
+        $action = $this->send_request("virtualcards/$action", 'POST', $data);
         return $action;
     }
 
@@ -79,16 +80,51 @@ class CardsController extends Controller
         $data = [
             'card_id'    => $cardId,
         ];
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request('card', 'GET', $data);
+        
+        $action = $this->send_request('card', 'GET', $data);
         return $action;
     }
 
     public function getTransaction($cardId)
     {
-        $bitnob = new Bitnob();
-        $action = $bitnob->send_request("virtualcards/cards/$cardId/transactions", 'GET', []);
+        
+        $action = $this->send_request("virtualcards/cards/$cardId/transactions", 'GET', []);
         return $action;
+    }
+
+
+    private function send_request(string $uri, string $method, array $data = [])
+    {
+        try {
+            $token = env("BITNOB_API_KEY");
+            $url = $this->formatUrl(env("BITNOB_BASE_URL") . $uri);
+
+            $response = Http::withToken($token)
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ])
+                ->$method($url, $data);
+
+            $result = $response->json();
+
+            return (array)$result;
+        } catch (\Throwable $th) {
+            return get_error_response(['error' => $th->getMessage()]);
+        }
+    }
+
+    private function formatUrl($url)
+    {
+        // Ensure the URL starts with a valid protocol or prepend 'http://'
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+
+        // Correct multiple slashes in the URL except in protocol part
+        $url = preg_replace('#(?<!:)//+#', '/', $url);
+
+        return $url;
     }
 
 }
