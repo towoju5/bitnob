@@ -13,36 +13,47 @@ use Towoju5\Bitnob\Http\Controllers\TransferController;
 class Bitnob
 {
     // Build your next great package.
-    public function send_request(string $uri, string $method, array $data = [])
+    public static function send_request(string $uri, string $method, array $data = [])
     {
-        try {
-            $token = getenv("BITNOB_API_KEY");
-            $client = new Client();
-            $headers["Content-Type"]    = "application/json";
-            $headers["accept"]          = "application/json";
+        $baseUrl = env("BITNOB_BASE_URL", "https://api.bitnob.co/api/v1/");
+        $token = env("BITNOB_API_KEY");
+        $url = self::formatUrl("{$baseUrl}{$uri}");
 
-            if (NULL != $token) :
-                $headers["Authorization"] = "Bearer ".$token;
-            endif;
+        $headers = [
+            "Content-Type: application/json",
+            "Accept: application/json"
+        ];
 
-            $url = $this->formatUrl(getenv("BITNOB_BASE_URL").$uri);
-            $body = json_encode($data);
-            $request = new Request($method, $url, $headers, $body);
-            $res = $client->sendAsync($request)->wait();
-            $result = $res->getBody();
+        if ($token !== null) {
+            $headers[] = "Authorization: Bearer " . $token;
+        }
 
-            if(!is_array($result)) {
-                $result = json_decode($result, true);
-            }
+        $body = json_encode($data);
 
-            // var_dump($result);
-            return $result;
-        } catch (\Throwable $th) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+
+        if (curl_errno($ch)) {
             return response()->json([
-                'error'  => $th->getMessage(), 
-                'errorCode' => $th->getCode() ?? 500 
+                'error' => curl_error($ch),
+                'errorCode' => curl_errno($ch)
             ]);
         }
+
+        curl_close($ch);
+
+        if (!is_array($result)) {
+            $result = json_decode($result, true);
+        }
+
+        return $result;
     }
 
     public function cards(){
@@ -74,7 +85,7 @@ class Bitnob
         return $checkout;
     }
 
-    private function formatUrl($url) {
+    private static function formatUrl($url) {
         // Ensure the URL starts with a valid protocol or prepend 'http://'
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
