@@ -15,6 +15,3 @@ use Towoju5\Reloadly\Reloadly;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('operators/sync', [OperatorsController::class, 'sync']);
-// Route::get('airtime/buy', [AirtimeController::class, 'buy']);

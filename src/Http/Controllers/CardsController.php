@@ -19,22 +19,6 @@ class CardsController extends Controller
 
     public function regUser($data)
     {
-        $data = [
-            'customerEmail' => $data['customerEmail'],
-            'idNumber' => $data['idNumber'],
-            'idType' => $data['idType'],
-            'firstName' => $data['firstName'],
-            'lastName' => $data['lastName'],
-            'phoneNumber' => $data['phoneNumber'],
-            'city' => $data['city'],
-            'state' => $data['state'],
-            'country' => $data['country'],
-            'zipCode' => $data['zipCode'],
-            'line1' => $data['line1'],
-            'houseNumber' => $data['houseNumber'],
-            'idImage' => $data['idImage'],
-        ];
-
         $action = $this->send_request('virtualcards/registercarduser', 'POST', $data);
         return $action;
     }
