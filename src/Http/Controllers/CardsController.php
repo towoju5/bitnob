@@ -34,7 +34,7 @@ class CardsController extends Controller
         ];
 
         $action = $this->send_request('virtualcards/create', 'POST', $data);
-        print_r($action);
+        //print_r($action);
         return $action;
     }
 
