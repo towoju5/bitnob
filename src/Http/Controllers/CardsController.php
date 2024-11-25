@@ -25,7 +25,7 @@ class CardsController extends Controller
 
     public function create($data)
     {
-        $data = [
+        $data += [
             'customerEmail' => $data['customerEmail'],
             'cardBrand' => $data['cardBrand'],
             'cardType' => $data['cardType'],
@@ -62,11 +62,7 @@ class CardsController extends Controller
 
     public function getCard($cardId)
     {
-        $data = [
-            'card_id' => $cardId,
-        ];
-
-        $action = $this->send_request('card', 'GET', $data);
+        $action = $this->send_request("virtualcards/cards/$cardId", 'GET', $data);
         return $action;
     }
 
