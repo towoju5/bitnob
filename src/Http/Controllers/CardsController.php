@@ -38,6 +38,13 @@ class CardsController extends Controller
         return $action;
     }
 
+    public function terminate($cardId)
+    {
+        $data = ["cardId" => $cardId];
+        $action = $this->send_request('virtualcards/terminate', 'POST', $data);
+        return $action;
+    }
+
     public function topup($data)
     {
         $data = [
@@ -62,6 +69,7 @@ class CardsController extends Controller
 
     public function getCard($cardId)
     {
+        $data = ['cardId' => $cardId];
         $action = $this->send_request("virtualcards/cards/$cardId", 'GET', $data);
         return $action;
     }
@@ -135,3 +143,4 @@ class CardsController extends Controller
     }
 
 }
+
